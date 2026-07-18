@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Velo Coffee — Premium Artisan Coffee</title>
+  <meta name="description" content="Premium artisan coffee house. Single-origin beans, expert baristas, cozy atmosphere.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="#hero" class="navbar-logo">Velo<span class="logo-acc">Coffee</span></a>
+      <nav class="navbar-menu">
+        <a href="#hero">Home</a>
+        <a href="#about">About</a>
+        <a href="#menu">Menu</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="navbar-actions">
+        <a class="btn-order" id="navOrderBtn">Order Now</a>
+        <button class="cart-btn" aria-label="Open cart">
+          &#128722;
+          <span class="cart-badge">0</span>
+        </button>
+        <button class="hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== NAV SIDEBAR ===== -->
+  <div class="sidebar-overlay"></div>
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">Velo<span class="logo-acc">Coffee</span></div>
+      <button class="sidebar-close" aria-label="Close menu">&times;</button>
+    </div>
+    <div class="sidebar-nav">
+      <a href="#hero"><span class="nav-num">01</span> Home</a>
+      <a href="#menu"><span class="nav-num">02</span> Menu</a>
+      <a href="#about"><span class="nav-num">03</span> About</a>
+      <a href="#contact"><span class="nav-num">04</span> Contact</a>
+    </div>
+    <div class="sidebar-footer">
+      <div class="sidebar-footer-contact">
+        <p>123 Coffee Street, Kemang</p>
+        <p>Jakarta Selatan 12730</p>
+        <p>+62 21 5555 1234</p>
+      </div>
+      <div class="sidebar-footer-socials">
+        <a href="#">Ig</a>
+        <a href="#">Fb</a>
+        <a href="#">Tw</a>
+        <a href="#">Yt</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== CART SIDEBAR ===== -->
+  <div class="cart-overlay"></div>
+  <div class="cart-sidebar">
+    <div class="cart-header">
+      <h3>Your Order <span class="count">(0 items)</span></h3>
+      <button class="cart-close" aria-label="Close cart">&times;</button>
+    </div>
+    <div class="cart-items">
+      <div class="cart-empty">
+        <span class="cart-empty-icon">&#9749;</span>
+        <p>Your cart is empty.<br>Browse the menu and add something delicious!</p>
+      </div>
+    </div>
+    <div class="cart-footer" style="display:none">
+      <div class="cart-summary-row">
+        <p>Subtotal</p>
+        <span class="val" id="cartSubtotal">Rp 0</span>
+      </div>
+      <div class="cart-summary-row">
+        <p>Delivery</p>
+        <span class="val" style="color:var(--acc)">Free</span>
+      </div>
+      <div class="cart-summary-row total">
+        <p>Total</p>
+        <span class="val" id="cartTotal">Rp 0</span>
+      </div>
+      <button class="cart-checkout-btn" disabled>Checkout &rarr;</button>
+      <button class="cart-clear-btn">Clear Cart</button>
+    </div>
+  </div>
+
+  <!-- ===== CHECKOUT OVERLAY ===== -->
+  <div class="checkout-overlay">
+    <div class="checkout-back">&larr; Back to Cart</div>
+    <div class="checkout-inner">
+      <div class="checkout-form-card">
+        <h3>Checkout</h3>
+        <form id="checkoutForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="co-name">Name</label>
+              <input type="text" id="co-name" placeholder="Your full name" required>
+            </div>
+            <div class="form-group">
+              <label for="co-phone">Phone (Indonesian number)</label>
+              <input type="tel" id="co-phone" placeholder="0812xxxxxxx / +62812xxxxxxx" maxlength="13" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="co-address">Delivery Address</label>
+            <textarea id="co-address" rows="3" placeholder="Full address with district & city" required></textarea>
+          </div>
+          <div class="form-group">
+            <label>Payment Method</label>
+            <div class="payment-options">
+              <label class="payment-opt" data-method="cod">
+                <input type="radio" name="payment" value="cod">
+                <span class="payment-opt-icon">&#128176;</span>
+                <div class="payment-opt-body"><h5>Cash on Delivery</h5><p>Bayar saat pesanan tiba</p></div>
+              </label>
+              <label class="payment-opt" data-method="transfer">
+                <input type="radio" name="payment" value="transfer">
+                <span class="payment-opt-icon">&#127974;</span>
+                <div class="payment-opt-body"><h5>Bank Transfer</h5><p>Pilih bank di bawah</p></div>
+              </label>
+              <label class="payment-opt" data-method="ewallet">
+                <input type="radio" name="payment" value="ewallet">
+                <span class="payment-opt-icon">&#128241;</span>
+                <div class="payment-opt-body"><h5>E-Wallet</h5><p>Pilih e-wallet di bawah</p></div>
+              </label>
+              <label class="payment-opt" data-method="card">
+                <input type="radio" name="payment" value="card">
+                <span class="payment-opt-icon">&#128179;</span>
+                <div class="payment-opt-body"><h5>Kartu Kredit / Debit</h5><p>Visa, Mastercard, JCB</p></div>
+              </label>
+            </div>
+
+            <!-- Bank Transfer Sub-options -->
+            <div class="payment-sub" id="sub-transfer" style="display:none">
+              <p class="payment-sub-title">Pilih Bank</p>
+              <div class="payment-sub-grid">
+                <label class="payment-sub-opt" data-sub="BCA">
+                  <input type="radio" name="sub_payment" value="BCA">
+                  <span class="sub-logo">BCA</span>
+                  <span class="sub-name">Bank BCA</span>
+                </label>
+                <label class="payment-sub-opt" data-sub="Mandiri">
+                  <input type="radio" name="sub_payment" value="Mandiri">
+                  <span class="sub-logo">MDR</span>
+                  <span class="sub-name">Bank Mandiri</span>
+                </label>
+                <label class="payment-sub-opt" data-sub="BNI">
+                  <input type="radio" name="sub_payment" value="BNI">
+                  <span class="sub-logo">BNI</span>
+                  <span class="sub-name">Bank BNI</span>
+                </label>
+                <label class="payment-sub-opt" data-sub="BRI">
+                  <input type="radio" name="sub_payment" value="BRI">
+                  <span class="sub-logo">BRI</span>
+                  <span class="sub-name">Bank BRI</span>
+                </label>
+              </div>
+              <div class="bank-detail" id="bankDetail" style="display:none">
+                <div class="bank-detail-row"><span class="label">Transfer ke</span><span class="value" id="bankAccount">—</span></div>
+                <div class="bank-detail-row"><span class="label">Atas nama</span><span class="value">PT Adly Coffee Indonesia</span></div>
+                <div class="bank-detail-row"><span class="label">Nominal</span><span class="value bank-total">—</span></div>
+              </div>
+            </div>
+
+            <!-- E-Wallet Sub-options -->
+            <div class="payment-sub" id="sub-ewallet" style="display:none">
+              <p class="payment-sub-title">Pilih E-Wallet</p>
+              <div class="payment-sub-grid ewallet-grid">
+                <label class="payment-sub-opt" data-sub="GoPay">
+                  <input type="radio" name="sub_payment" value="GoPay">
+                  <span class="sub-logo gopay">GoPay</span>
+                  <span class="sub-name">GoPay</span>
+                </label>
+                <label class="payment-sub-opt" data-sub="OVO">
+                  <input type="radio" name="sub_payment" value="OVO">
+                  <span class="sub-logo ovo">OVO</span>
+                  <span class="sub-name">OVO</span>
+                </label>
+                <label class="payment-sub-opt" data-sub="DANA">
+                  <input type="radio" name="sub_payment" value="DANA">
+                  <span class="sub-logo dana">DANA</span>
+                  <span class="sub-name">DANA</span>
+                </label>
+                <label class="payment-sub-opt" data-sub="ShopeePay">
+                  <input type="radio" name="sub_payment" value="ShopeePay">
+                  <span class="sub-logo shopee">SPay</span>
+                  <span class="sub-name">ShopeePay</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Card Sub-options -->
+            <div class="payment-sub" id="sub-card" style="display:none">
+              <p class="payment-sub-title">Pilih Jenis Kartu</p>
+              <div class="payment-sub-grid ewallet-grid">
+                <label class="payment-sub-opt" data-sub="Visa">
+                  <input type="radio" name="sub_payment" value="Visa">
+                  <span class="sub-logo visa">VISA</span>
+                  <span class="sub-name">Visa</span>
+                </label>
+                <label class="payment-sub-opt" data-sub="Mastercard">
+                  <input type="radio" name="sub_payment" value="Mastercard">
+                  <span class="sub-logo mc">MC</span>
+                  <span class="sub-name">Mastercard</span>
+                </label>
+                <label class="payment-sub-opt" data-sub="JCB">
+                  <input type="radio" name="sub_payment" value="JCB">
+                  <span class="sub-logo jcb">JCB</span>
+                  <span class="sub-name">JCB</span>
+                </label>
+              </div>
+              <div class="card-form" id="cardForm" style="display:none">
+                <div class="checkout-form-group">
+                  <label>Nomor Kartu</label>
+                  <input type="text" id="card-number" placeholder="xxxx xxxx xxxx xxxx" maxlength="19">
+                </div>
+                <div class="card-form-row">
+                  <div class="checkout-form-group">
+                    <label>Expired</label>
+                    <input type="text" id="card-exp" placeholder="MM/YY" maxlength="5">
+                  </div>
+                  <div class="checkout-form-group">
+                    <label>CVV</label>
+                    <input type="text" id="card-cvv" placeholder="xxx" maxlength="4">
+                  </div>
+                </div>
+                <div class="checkout-form-group">
+                  <label>Nama di Kartu</label>
+                  <input type="text" id="card-name" placeholder="Nama sesuai kartu">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="co-notes">Order Notes <span class="optional">(optional)</span></label>
+            <textarea id="co-notes" rows="2" placeholder="Special requests, allergies, etc."></textarea>
+          </div>
+          <button type="submit" class="checkout-submit">Place Order &rarr;</button>
+        </form>
+      </div>
+      <div class="checkout-summary">
+        <h3>Order Summary</h3>
+        <div id="checkoutSummaryItems" class="summary-items"></div>
+        <div class="summary-totals">
+          <div class="summary-row"><p>Subtotal</p><span id="coSubtotal">Rp 0</span></div>
+          <div class="summary-row"><p>Delivery</p><span id="coDelivery" style="color:var(--acc)">Free</span></div>
+          <div class="summary-row total"><p>Total</p><span id="coTotal">Rp 0</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SUCCESS SCREEN ===== -->
+  <div class="success-screen">
+    <div class="confetti-container"></div>
+    <div class="success-inner">
+      <div class="success-icon-wrap">
+        <svg class="success-check" viewBox="0 0 52 52">
+          <circle cx="26" cy="26" r="25" fill="none"/>
+          <path class="check-path" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+      </div>
+      <h2>Order Placed Successfully!</h2>
+      <p class="success-sub">Thank you, <span id="successName"></span>! Your order of <span id="successItemCount">0</span> item(s) is being prepared.</p>
+      <div class="success-details">
+        <div class="success-detail-row">
+          <p class="label">Order ID</p>
+          <p class="value" id="successOrderId">VC-XXXXXX</p>
+        </div>
+        <div class="success-detail-row">
+          <p class="label">Payment</p>
+          <p class="value" id="successPayment">—</p>
+        </div>
+        <div class="success-detail-row">
+          <p class="label">Delivery To</p>
+          <p class="value" id="successAddress">—</p>
+        </div>
+        <div class="success-detail-row">
+          <p class="label">Total</p>
+          <p class="value" id="successTotal">Rp 0</p>
+        </div>
+      </div>
+      <div class="success-items-wrap">
+        <h4>Order Items</h4>
+        <div id="successItems" class="summary-items"></div>
+      </div>
+      <button class="btn btn-primary">Back to Menu</button>
+    </div>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-badge">Est. 2019 &mdash; Jakarta</div>
+        <h1>Crafted with<br><em>Passion,</em><br>Brewed to<br>Perfection</h1>
+        <p class="hero-desc">
+          Single-origin beans roasted in-house, handcrafted by expert baristas, 
+          served in a space designed for slow mornings and deep conversations.
+        </p>
+        <div class="hero-actions">
+          <a href="#menu" class="btn btn-primary">
+            Order Now <span class="btn-arrow">&rarr;</span>
+          </a>
+          <a href="#menu" class="btn btn-outline">Explore Menu</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <h3 data-count="12" data-suffix="+">0+</h3>
+            <p>Bean Origins</p>
+          </div>
+          <div class="hero-stat">
+            <h3 data-count="50" data-suffix="+">0+</h3>
+            <p>Menu Items</p>
+          </div>
+          <div class="hero-stat">
+            <h3 data-count="15000" data-suffix="+">0+</h3>
+            <p>Happy Guests</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-visual-main">
+          <span class="hero-visual-icon">&#9749;</span>
+        </div>
+        <div class="hero-product-card card-top">
+          <div class="product-card-img">&#9749;</div>
+          <div class="product-card-info">
+            <h4>Signature Espresso</h4>
+            <p>Rich & bold single origin</p>
+            <span class="price">Rp 35.000</span>
+          </div>
+        </div>
+        <div class="hero-product-card card-bottom">
+          <div class="product-card-img">&#127848;</div>
+          <div class="product-card-info">
+            <h4>Cold Brew</h4>
+            <p>18hr slow-steeped</p>
+            <span class="price">Rp 42.000</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MARQUEE ===== -->
+  <div class="marquee">
+    <div class="marquee-track">
+      <span class="marquee-item">Single Origin <span class="dot"></span></span>
+      <span class="marquee-item">Hand Roasted <span class="dot"></span></span>
+      <span class="marquee-item">Fresh Daily <span class="dot"></span></span>
+      <span class="marquee-item">Pour Over <span class="dot"></span></span>
+      <span class="marquee-item">Cold Brew <span class="dot"></span></span>
+      <span class="marquee-item">Latte Art <span class="dot"></span></span>
+      <span class="marquee-item">Organic Beans <span class="dot"></span></span>
+      <span class="marquee-item">Zero Waste <span class="dot"></span></span>
+      <span class="marquee-item">Single Origin <span class="dot"></span></span>
+      <span class="marquee-item">Hand Roasted <span class="dot"></span></span>
+      <span class="marquee-item">Fresh Daily <span class="dot"></span></span>
+      <span class="marquee-item">Pour Over <span class="dot"></span></span>
+      <span class="marquee-item">Cold Brew <span class="dot"></span></span>
+      <span class="marquee-item">Latte Art <span class="dot"></span></span>
+      <span class="marquee-item">Organic Beans <span class="dot"></span></span>
+      <span class="marquee-item">Zero Waste <span class="dot"></span></span>
+    </div>
+  </div>
+
+  <!-- ===== ABOUT ===== -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-img-wrap reveal">
+          <div class="about-img">
+            <span class="about-img-icon">&#9749;</span>
+          </div>
+          <div class="about-year">
+            <h3>2019</h3>
+            <p>Founded</p>
+          </div>
+        </div>
+        <div class="about-content">
+          <p class="section-tag reveal" style="justify-content:flex-start">Our Story</p>
+          <h2 class="section-title reveal">Born from a Love of <em>Exceptional</em> Coffee</h2>
+          <p class="about-txt reveal">
+            Velo Coffee began as a small corner shop in Kemang with a simple mission: serve 
+            extraordinary coffee in a space where people actually want to linger. What started 
+            as a passion project between two friends has grown into Jakarta's favorite 
+            neighborhood coffee destination.
+          </p>
+          <p class="about-txt reveal">
+            We partner directly with farmers across Colombia, Ethiopia, Guatemala, and 
+            Indonesia &mdash; ensuring every bean meets our uncompromising standards for quality 
+            and ethical sourcing.
+          </p>
+          <div class="about-values reveal">
+            <div class="about-val">
+              <div class="about-val-icon">&#10003;</div>
+              <p>Ethically Sourced</p>
+            </div>
+            <div class="about-val">
+              <div class="about-val-icon">&#10003;</div>
+              <p>Freshly Roasted</p>
+            </div>
+            <div class="about-val">
+              <div class="about-val-icon">&#10003;</div>
+              <p>Zero Waste Goal</p>
+            </div>
+            <div class="about-val">
+              <div class="about-val-icon">&#10003;</div>
+              <p>Community First</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MENU ===== -->
+  <section class="section menu-sec" id="menu">
+    <div class="container">
+      <div class="section-hdr">
+        <p class="section-tag reveal">The Menu</p>
+        <h2 class="section-title reveal">Crafted with <em>Precision</em></h2>
+        <p class="section-sub reveal">
+          From single-origin espressos to signature pastries &mdash; every item 
+          made with care using the finest ingredients.
+        </p>
+      </div>
+
+      <div class="menu-filters reveal">
+        <button class="menu-filter active" data-category="all">All</button>
+        <button class="menu-filter" data-category="coffee">Coffee</button>
+        <button class="menu-filter" data-category="cold">Cold Drinks</button>
+        <button class="menu-filter" data-category="specialty">Specialty</button>
+        <button class="menu-filter" data-category="pastry">Pastries</button>
+      </div>
+
+      <div class="menu-grid">
+        <div class="menu-card reveal" data-category="coffee">
+          <div class="menu-card-icon">&#9749;</div>
+          <div class="menu-card-body">
+            <div class="menu-card-top"><h4>Signature Espresso</h4><span class="menu-card-price">35K</span></div>
+            <p class="menu-card-desc">Bold, rich single-origin shot</p>
+            <span class="menu-card-tag">Classic</span>
+            <button class="menu-card-add" data-name="Signature Espresso" data-price="35000" data-icon="&#9749;"><span class="add-icon">+</span> Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-card reveal" data-category="coffee">
+          <div class="menu-card-icon">&#9749;</div>
+          <div class="menu-card-body">
+            <div class="menu-card-top"><h4>Oat Milk Latte</h4><span class="menu-card-price">45K</span></div>
+            <p class="menu-card-desc">Smooth espresso with creamy oat milk</p>
+            <span class="menu-card-tag">Popular</span>
+            <button class="menu-card-add" data-name="Oat Milk Latte" data-price="45000" data-icon="&#9749;"><span class="add-icon">+</span> Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-card reveal" data-category="coffee">
+          <div class="menu-card-icon">&#9749;</div>
+          <div class="menu-card-body">
+            <div class="menu-card-top"><h4>V60 Pour Over</h4><span class="menu-card-price">55K</span></div>
+            <p class="menu-card-desc">Hand-poured single origin clarity</p>
+            <span class="menu-card-tag">Pour Over</span>
+            <button class="menu-card-add" data-name="V60 Pour Over" data-price="55000" data-icon="&#9749;"><span class="add-icon">+</span> Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-card reveal" data-category="coffee">
+          <div class="menu-card-icon">&#9749;</div>
+          <div class="menu-card-body">
+            <div class="menu-card-top"><h4>Flat White</h4><span class="menu-card-price">43K</span></div>
+            <p class="menu-card-desc">Microfoam over double ristretto</p>
+            <span class="menu-card-tag">Classic</span>
+            <button class="menu-card-add" data-name="Flat White" data-price="43000" data-icon="&#9749;"><span class="add-icon">+</span> Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-card reveal" data-category="coffee">
+          <div class="menu-card-icon">&#9749;</div>
+          <div class="menu-card-body">
+            <div class="menu-card-top"><h4>Spanish Latte</h4><span class="menu-card-price">48K</span></div>
+            <p class="menu-card-desc">Sweetened condensed milk indulgence</p>
+            <span class="menu-card-tag">Signature</span>
+            <button class="menu-card-add" data-name="Spanish Latte" data-price="48000" data-icon="&#9749;"><span class="add-icon">+</span> Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-card reveal" data-category="coffee">
+          <div class="menu-card-icon">&#9749;</div>
+          <div class="menu-card-body">
+            <div class="menu-card-top"><h4>Classic Cappuccino</h4><span class="menu-card-price">40K</span></div>
+            <p class="menu-card-desc">Velvety foam, balanced extraction</p>
+            <span class="menu-card-tag">Classic</span>
+            <button class="menu-card-add" data-name="Classic Cappuccino" data-price="40000" data-icon="&#9749;"><span class="add-icon">+</span> Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-card reveal" data-category="cold">
+          <div class="menu-card-icon">&#127848;</div>
+          <div class="menu-card-body">
+            <div class="menu-card-top"><h4>Cold Brew</h4><span class="menu-card-price">42K</span></div>
+            <p class="menu-card-desc">18-hour slow-steeped, served chilled</p>
+            <span class="menu-card-tag">Popular</span>
+            <button class="menu-card-add" data-name="Cold Brew" data-price="42000" data-icon="&#127848;"><span class="add-icon">+</span> Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-card reveal" data-category="cold">
+          <div class="menu-card-icon">&#127848;</div>
+          <div class="menu-card-body">
+            <div class="menu-card-top"><h4>Iced Americano</h4><span class="menu-card-price">38K</span></div>
+            <p class="menu-card-desc">Double shot over ice, crisp finish</p>
+            <span class="menu-card-tag">Classic</span>
+            <button class="menu-card-add" data-name="Iced Americano" data-price="38000" data-icon="&#127848;"><span class="add-icon">+</span> Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-card reveal" data-category="cold">
+          <div class="menu-card-icon">&#127848;</div>
+          <div class="menu-card-body">
+            <div class="menu-card-top"><h4>Mango Green Tea</h4><span class="menu-card-price">35K</span></div>
+            <p class="menu-card-desc">Fresh mango with premium green tea</p>
+            <span class="menu-card-tag">Refreshing</span>
+            <button class="menu-card-add" data-name="Mango Green Tea" data-price="35000" data-icon="&#127848;"><span class="add-icon">+</span> Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-card reveal" data-category="specialty">
+          <div class="menu-card-icon">&#10024;</div>
+          <div class="menu-card-body">
+            <div class="menu-card-top"><h4>Caramel Macchiato</h4><span class="menu-card-price">50K</span></div>
+            <p class="menu-card-desc">Vanilla, espresso, caramel drizzle</p>
+            <span class="menu-card-tag">Signature</span>
+            <button class="menu-card-add" data-name="Caramel Macchiato" data-price="50000" data-icon="&#10024;"><span class="add-icon">+</span> Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-card reveal" data-category="specialty">
+          <div class="menu-card-icon">&#10024;</div>
+          <div class="menu-card-body">
+            <div class="menu-card-top"><h4>Honey Matcha Latte</h4><span class="menu-card-price">50K</span></div>
+            <p class="menu-card-desc">Ceremonial grade matcha with raw honey</p>
+            <span class="menu-card-tag">Specialty</span>
+            <button class="menu-card-add" data-name="Honey Matcha Latte" data-price="50000" data-icon="&#10024;"><span class="add-icon">+</span> Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-card reveal" data-category="specialty">
+          <div class="menu-card-icon">&#10024;</div>
+          <div class="menu-card-body">
+            <div class="menu-card-top"><h4>Turmeric Latte</h4><span class="menu-card-price">45K</span></div>
+            <p class="menu-card-desc">Golden milk with warming spices</p>
+            <span class="menu-card-tag">Wellness</span>
+            <button class="menu-card-add" data-name="Turmeric Latte" data-price="45000" data-icon="&#10024;"><span class="add-icon">+</span> Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-card reveal" data-category="pastry">
+          <div class="menu-card-icon">&#127838;</div>
+          <div class="menu-card-body">
+            <div class="menu-card-top"><h4>Butter Croissant</h4><span class="menu-card-price">28K</span></div>
+            <p class="menu-card-desc">Flaky, golden, buttery layers</p>
+            <span class="menu-card-tag">Baked Fresh</span>
+            <button class="menu-card-add" data-name="Butter Croissant" data-price="28000" data-icon="&#127838;"><span class="add-icon">+</span> Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-card reveal" data-category="pastry">
+          <div class="menu-card-icon">&#127856;</div>
+          <div class="menu-card-body">
+            <div class="menu-card-top"><h4>Tiramisu Cake</h4><span class="menu-card-price">38K</span></div>
+            <p class="menu-card-desc">Espresso-soaked mascarpone layers</p>
+            <span class="menu-card-tag">Indulgent</span>
+            <button class="menu-card-add" data-name="Tiramisu Cake" data-price="38000" data-icon="&#127856;"><span class="add-icon">+</span> Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-card reveal" data-category="pastry">
+          <div class="menu-card-icon">&#127838;</div>
+          <div class="menu-card-body">
+            <div class="menu-card-top"><h4>Cinnamon Roll</h4><span class="menu-card-price">30K</span></div>
+            <p class="menu-card-desc">Warm with cream cheese glaze</p>
+            <span class="menu-card-tag">Baked Fresh</span>
+            <button class="menu-card-add" data-name="Cinnamon Roll" data-price="30000" data-icon="&#127838;"><span class="add-icon">+</span> Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-card reveal" data-category="pastry">
+          <div class="menu-card-icon">&#127856;</div>
+          <div class="menu-card-body">
+            <div class="menu-card-top"><h4>Fudge Brownie</h4><span class="menu-card-price">27K</span></div>
+            <p class="menu-card-desc">Dense chocolate with sea salt</p>
+            <span class="menu-card-tag">Indulgent</span>
+            <button class="menu-card-add" data-name="Fudge Brownie" data-price="27000" data-icon="&#127856;"><span class="add-icon">+</span> Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SIGNATURE ===== -->
+  <section class="section sig-sec" id="signature">
+    <div class="container">
+      <div class="section-hdr">
+        <p class="section-tag reveal">The Experience</p>
+        <h2 class="section-title reveal">What Makes Us <em>Different</em></h2>
+        <p class="section-sub reveal">It's not just coffee. It's a ritual, a pause, a moment of craft.</p>
+      </div>
+      <div class="sig-grid">
+        <div class="sig-card reveal">
+          <span class="sig-card-icon">&#9752;</span>
+          <h3>Direct Trade</h3>
+          <p>We buy directly from farmers, cutting out middlemen and ensuring fair pay for exceptional beans.</p>
+        </div>
+        <div class="sig-card reveal reveal-d1">
+          <span class="sig-card-icon">&#9733;</span>
+          <h3>In-House Roasting</h3>
+          <p>Every batch roasted in our Jakarta micro-roastery, guaranteeing peak freshness in every cup.</p>
+        </div>
+        <div class="sig-card reveal reveal-d2">
+          <span class="sig-card-icon">&#10084;</span>
+          <h3>Crafted by Hand</h3>
+          <p>Our Q-grader certified baristas treat every pour as an art form &mdash; precision meets passion.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="section" id="testimonials">
+    <div class="container">
+      <div class="section-hdr">
+        <p class="section-tag reveal">Testimonials</p>
+        <h2 class="section-title reveal">What People <em>Say</em></h2>
+        <p class="section-sub reveal">Don't take our word for it. Here's what our regulars have to say.</p>
+      </div>
+      <div class="test-grid">
+        <div class="test-card reveal">
+          <div class="test-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="test-text">"The best coffee I've had in Jakarta. The atmosphere is incredible and the baristas truly know their craft. My weekends start here."</p>
+          <div class="test-author">
+            <div class="test-avatar">AR</div>
+            <div>
+              <p class="test-name">Anisa Rahma</p>
+              <p class="test-role">Regular since 2020</p>
+            </div>
+          </div>
+        </div>
+        <div class="test-card reveal reveal-d1">
+          <div class="test-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="test-text">"My go-to place for remote work. Great Wi-Fi, amazing cold brew, and the staff remember your name. It feels like a second home."</p>
+          <div class="test-author">
+            <div class="test-avatar">DW</div>
+            <div>
+              <p class="test-name">Dimas Wicaksono</p>
+              <p class="test-role">Freelance Designer</p>
+            </div>
+          </div>
+        </div>
+        <div class="test-card reveal reveal-d2">
+          <div class="test-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="test-text">"Every pastry is baked fresh and pairs perfectly with their espresso. Truly a gem. The tiramisu cake alone is worth the trip."</p>
+          <div class="test-author">
+            <div class="test-avatar">MP</div>
+            <div>
+              <p class="test-name">Maya Putri</p>
+              <p class="test-role">Food Blogger</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section class="section res-sec" id="contact">
+    <div class="container">
+      <div class="section-hdr">
+        <p class="section-tag reveal">Get in Touch</p>
+        <h2 class="section-title reveal">We'd Love to <em>Hear</em> from You</h2>
+        <p class="section-sub reveal">Whether it's a question, feedback, or just saying hi &mdash; reach out anytime.</p>
+      </div>
+      <div class="res-grid">
+        <div class="res-cards">
+          <div class="res-card reveal">
+            <div class="res-card-icon">&#128231;</div>
+            <div>
+              <h4>Email</h4>
+              <p>hello@velocoffee.id<br>events@velocoffee.id</p>
+            </div>
+          </div>
+          <div class="res-card reveal reveal-d1">
+            <div class="res-card-icon">&#128222;</div>
+            <div>
+              <h4>Phone</h4>
+              <p>+62 21 5555 1234<br>WhatsApp: +62 812 9876 5432</p>
+            </div>
+          </div>
+          <div class="res-card reveal reveal-d2">
+            <div class="res-card-icon">&#128205;</div>
+            <div>
+              <h4>Visit Us</h4>
+              <p>123 Coffee Street, Kemang<br>Jakarta Selatan 12730</p>
+            </div>
+          </div>
+        </div>
+        <div class="res-form-card reveal">
+          <h3>Send a Message</h3>
+          <form id="contactForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="ct-name">Name</label>
+                <input type="text" id="ct-name" placeholder="Your name" required>
+              </div>
+              <div class="form-group">
+                <label for="ct-email">Email</label>
+                <input type="email" id="ct-email" placeholder="you@email.com" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="ct-subject">Subject</label>
+              <select id="ct-subject" required>
+                <option value="" disabled selected>Choose a topic</option>
+                <option>General Inquiry</option>
+                <option>Feedback</option>
+                <option>Catering & Events</option>
+                <option>Partnership</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="ct-message">Message</label>
+              <textarea id="ct-message" placeholder="What's on your mind?" required></textarea>
+            </div>
+            <button type="submit" class="form-submit">Send Message &rarr;</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>Velo<span class="logo-acc">Coffee</span></h3>
+          <p>Artisan coffee house in the heart of Jakarta. Crafting exceptional cups and warm memories since 2019.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navigate</h4>
+          <a href="#hero">Home</a>
+          <a href="#about">About</a>
+          <a href="#menu">Menu</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>Hours</h4>
+          <a href="#">Mon&ndash;Fri: 7AM &ndash; 10PM</a>
+          <a href="#">Sat: 8AM &ndash; 11PM</a>
+          <a href="#">Sun: 8AM &ndash; 9PM</a>
+        </div>
+        <div class="footer-col footer-nl">
+          <h4>Stay Updated</h4>
+          <p>New brews, events, and exclusive offers &mdash; straight to your inbox.</p>
+          <form class="footer-nl-form">
+            <input type="email" placeholder="your@email.com" required>
+            <button type="submit">Join</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Velo Coffee. All rights reserved.</p>
+        <div class="footer-socials">
+          <a href="#" aria-label="Instagram">Ig</a>
+          <a href="#" aria-label="Facebook">Fb</a>
+          <a href="#" aria-label="Twitter">Tw</a>
+          <a href="#" aria-label="YouTube">Yt</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
