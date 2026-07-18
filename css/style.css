@@ -647,9 +647,7 @@ a.sponsor-item:hover .sponsor-name{color:var(--t3)}
   .navbar-actions{gap:20px}
   .btn-order{padding:10px 20px;font-size:.78rem}
   .cart-btn{width:40px;height:40px}
-  .navbar-menu{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(12,9,6,.97);backdrop-filter:blur(20px);flex-direction:column;justify-content:center;gap:28px;opacity:0;visibility:hidden;transition:opacity .4s,visibility .4s;z-index:205}
-  .navbar-menu.open{opacity:1;visibility:visible}
-  .navbar-menu a{font-size:1.4rem;color:var(--t1)}
+  .navbar-menu{display:none}
   .hamburger{display:flex}
   .hero-content{grid-template-columns:1fr;padding-top:120px;gap:40px;text-align:center}
   .hero-text{order:1}

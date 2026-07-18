@@ -38,16 +38,7 @@ function closeSidebar() {
   document.body.style.paddingRight = '';
 }
 hamburger.addEventListener('click', () => {
-  const navbarMenu = document.querySelector('.navbar-menu');
-  if (window.innerWidth <= 768) {
-    // Mobile: toggle fullscreen navbar menu
-    navbarMenu.classList.toggle('open');
-    hamburger.classList.toggle('active');
-    document.body.style.overflow = navbarMenu.classList.contains('open') ? 'hidden' : '';
-  } else {
-    // Desktop: open sidebar
-    sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
-  }
+  sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
 });
 sidebarClose.addEventListener('click', closeSidebar);
 overlay.addEventListener('click', closeSidebar);
@@ -457,17 +448,8 @@ document.querySelectorAll('.menu-card-add').forEach(btn => {
 });
 
 // ===== SIDEBAR NAV LINKS =====
-document.querySelectorAll('.sidebar-nav a').forEach(link => {
+document.querySelectorAll('.sidebar-nav a, .navbar-menu a').forEach(link => {
   link.addEventListener('click', closeSidebar);
-});
-
-// ===== MOBILE NAVBAR MENU LINKS =====
-document.querySelectorAll('.navbar-menu a').forEach(link => {
-  link.addEventListener('click', () => {
-    document.querySelector('.navbar-menu').classList.remove('open');
-    hamburger.classList.remove('active');
-    document.body.style.overflow = '';
-  });
 });
 
 // ===== SMOOTH SCROLL =====
