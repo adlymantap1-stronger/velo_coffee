@@ -552,4 +552,63 @@ if (heroTrack && heroDots.length) {
     const idx = Math.round(heroTrack.scrollLeft / heroTrack.offsetWidth);
     heroDots.forEach((d, i) => d.classList.toggle('active', i === idx));
   }, { passive: true });
+
+  // Autoplay for mobile only
+  let heroTimer = null;
+  let resumeTimeout = null;
+  let scrollTimeout = null;
+  const SLIDE_INTERVAL = 3500;
+  const SCROLL_SETTLE = 800;
+
+  function isMobile() { return window.innerWidth <= 768; }
+
+  function nextSlide() {
+    if (!isMobile()) return;
+    const slides = heroTrack.querySelectorAll('.hero-carousel-slide');
+    const idx = Math.round(heroTrack.scrollLeft / heroTrack.offsetWidth);
+    const next = (idx + 1) % slides.length;
+    heroTrack.scrollTo({ left: next * heroTrack.offsetWidth, behavior: 'smooth' });
+  }
+
+  function startAutoplay() {
+    stopAutoplay();
+    if (isMobile()) heroTimer = setInterval(nextSlide, SLIDE_INTERVAL);
+  }
+
+  function stopAutoplay() {
+    if (heroTimer) { clearInterval(heroTimer); heroTimer = null; }
+  }
+
+  function scheduleResume() {
+    if (resumeTimeout) clearTimeout(resumeTimeout);
+    resumeTimeout = setTimeout(() => { startAutoplay(); }, SCROLL_SETTLE);
+  }
+
+  function resetResume() {
+    if (resumeTimeout) { clearTimeout(resumeTimeout); resumeTimeout = null; }
+  }
+
+  // Stop autoplay on any touch activity
+  heroTrack.addEventListener('touchstart', () => {
+    stopAutoplay();
+    resetResume();
+    if (scrollTimeout) { clearTimeout(scrollTimeout); scrollTimeout = null; }
+  }, { passive: true });
+
+  // On touchend, wait for scroll to fully settle before resuming
+  heroTrack.addEventListener('touchend', () => {
+    scheduleResume();
+  }, { passive: true });
+
+  // While scrolling keeps happening (smooth scroll momentum), keep resetting the resume timer
+  heroTrack.addEventListener('scroll', () => {
+    if (!heroTimer) {
+      resetResume();
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => { scheduleResume(); }, SCROLL_SETTLE);
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', () => { isMobile() ? startAutoplay() : stopAutoplay(); });
+  startAutoplay();
 }
