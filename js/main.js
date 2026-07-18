@@ -542,3 +542,14 @@ function showToast(msg) {
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 3200);
 }
+
+// ===== HERO CAROUSEL DOTS =====
+const heroTrack = document.querySelector('.hero-carousel-track');
+const heroDots = document.querySelectorAll('.carousel-hint span');
+if (heroTrack && heroDots.length) {
+  heroDots[0].classList.add('active');
+  heroTrack.addEventListener('scroll', () => {
+    const idx = Math.round(heroTrack.scrollLeft / heroTrack.offsetWidth);
+    heroDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  }, { passive: true });
+}
