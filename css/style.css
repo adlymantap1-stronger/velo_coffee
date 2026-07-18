@@ -445,7 +445,7 @@ ul{list-style:none}
 
 /* ===== HERO ===== */
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,rgba(12,9,6,.92),rgba(12,9,6,.7) 50%,rgba(12,9,6,.85)),url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23130e09" width="1200" height="800"/></svg>');background-size:cover;background-position:center}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,rgba(12,9,6,.92),rgba(12,9,6,.7) 50%,rgba(12,9,6,.85)),url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1600&q=80');background-size:cover;background-position:center}
 .hero-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(200,149,108,.06),transparent 50%),radial-gradient(ellipse at 80% 30%,rgba(200,149,108,.04),transparent 40%)}
 .hero-content{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;width:100%;max-width:1320px;margin:0 auto;padding:0 clamp(20px,4vw,60px)}
 .hero-text{padding-top:80px}
@@ -627,6 +627,9 @@ ul{list-style:none}
   .sig-grid{grid-template-columns:1fr;max-width:440px;margin:0 auto}
 }
 @media(max-width:768px){
+  .navbar-actions{gap:20px}
+  .btn-order{padding:10px 20px;font-size:.78rem}
+  .cart-btn{width:40px;height:40px}
   .navbar-menu{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(12,9,6,.97);backdrop-filter:blur(20px);flex-direction:column;justify-content:center;gap:28px;opacity:0;visibility:hidden;transition:opacity .4s,visibility .4s;z-index:205}
   .navbar-menu.open{opacity:1;visibility:visible}
   .navbar-menu a{font-size:1.4rem;color:var(--t1)}
@@ -658,6 +661,9 @@ ul{list-style:none}
   .success-inner .btn{width:100%}
 }
 @media(max-width:480px){
+  .navbar-actions{gap:16px}
+  .btn-order{display:none}
+  .cart-btn{width:40px;height:40px;font-size:1rem}
   .hero h1{font-size:2.4rem}
   .hero-product-card{display:none}
   .hero-stats{flex-wrap:wrap;gap:24px}
